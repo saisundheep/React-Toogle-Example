@@ -1,0 +1,26 @@
+{
+  "name": "react-tabs-redux-example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --progress --color --port 3000",
+    "lint": "eslint src"
+  },
+  "author": "Patrik <piskay.patrik@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^6.4.1",
+    "css-loader": "^0.23.1",
+    "style-loader": "^0.13.2",
+    "webpack": "^1.15.0",
+    "webpack-dev-server": "^1.16.5"
+  }
+}
