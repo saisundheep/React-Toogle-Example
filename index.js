@@ -1,69 +1,56 @@
 import React from 'react';
+import { render } from 'react-dom';
+import { createStore } from 'redux';
+import { Provider, connect } from 'react-redux';
 
-import { Tabs, TabLink, TabContent } from '../../../../src';
+import App from './components';
 
-import './styles.css';
+// Action
 
-const styles = {
-    tabs: {
-        width: '400px',
-        display: 'inline-block',
-        marginRight: '30px',
-        verticalAlign: 'top'
-    },
-    links: {
-        margin: 0,
-        padding: 0
-    },
-    tabLink: {
-        height: '30px',
-        lineHeight: '30px',
-        padding: '0 15px',
-        cursor: 'pointer',
-        borderBottom: '2px solid transparent',
-        display: 'inline-block'
-    },
-    activeLinkStyle: {
-        borderBottom: '2px solid #333'
-    },
-    visibleTabStyle: {
-        display: 'inline-block'
-    },
-    content: {
-        padding: '0 15px'
-    }
+const CHANGE_SELECTED_TAB = 'CHANGE_SELECTED_TAB';
+
+function changeSelectedTab(selectedTab, tabNamespace) {
+    return {
+        type: CHANGE_SELECTED_TAB,
+        tab: selectedTab,
+        namespace: tabNamespace
+    };
+}
+
+// Reducer
+
+const initialState = {
+    tabs1: null,
+    tabs2: null
 };
 
-const App = (props) => (
-    <div>
-        <Tabs name="tabs2"
-            handleSelect={props.changeSelectedTab}
-            selectedTab={props.tabs2}
-            activeLinkStyle={styles.activeLinkStyle}
-            visibleTabStyle={styles.visibleTabStyle}
-            style={styles.tabs}
-        >
-            <div style={styles.links}>
-                <TabLink to="tab1" style={styles.tabLink}>Statement</TabLink>
-                <TabLink to="tab2" default style={styles.tabLink}>Authorization</TabLink>
-            </div>
+function tabsReducer(state = initialState, action) {
+    switch (action.type) {
+    case CHANGE_SELECTED_TAB:
+        return {
+            ...state,
+            [action.namespace]: action.tab
+        };
 
-            <div style={styles.content}>
-                <TabContent for="tab1">
-                    <h2>Statement content</h2>
-                    <p>
-                       Statement  Tab Content Information Will Display here
-                    </p>
+    default:
+        return state;
+    }
+}
 
-                </TabContent>
-                <TabContent for="tab2">
-                    <h2>Authorization content</h2>
-                    <div>Authorization Tab Content Information Will Display here </div>
-                </TabContent>
+// Store
 
-            </div>
-        </Tabs>
-    </div>
+const store = createStore(tabsReducer);
+
+// App
+
+const ConnectedApp = connect(
+    (state) => state,
+    { changeSelectedTab }
+)(App);
+
+render(
+    <Provider store={store}>
+        <ConnectedApp />
+    </Provider>,
+    document.getElementById('app')
 );
-
-export default App;
